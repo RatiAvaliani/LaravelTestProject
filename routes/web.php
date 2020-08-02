@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('index');
+});
+
+Route::get('/register', 'RegistrationController@register');
+Route::post('/register', 'RegistrationController@registerPost');
+
+Route::get('/login', 'LoginController@login')->name('login');
+Route::post('/login', 'LoginController@loginPost');
+
+Route::get('/logout', 'LoginController@logout');
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/myTokens','TokensController@index');
+    Route::get('/token/remove/{id}','TokensController@destroy');
+    Route::get('/token/add','TokensController@create');
+
+});
+
